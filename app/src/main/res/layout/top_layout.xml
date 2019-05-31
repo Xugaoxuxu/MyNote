@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+              android:background="#33251b33"
+                android:id="@+id/id_normal_top"
+              android:layout_height="40dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#4b0f0f31">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/line"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@mipmap/note"/>
+
+        <ImageButton
+            android:id="@+id/id_addNote"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/note_add"
+            android:layout_alignParentRight="true"
+            android:text="新增"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_toRightOf="@+id/imageView"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textSize="28dp"
+            android:textColor="#ffff"/>
+    </RelativeLayout>
+
+</RelativeLayout>

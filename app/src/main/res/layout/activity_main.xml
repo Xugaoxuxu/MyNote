@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/main_bg"
+                android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <include layout="@layout/top_layout"/>
+        <include layout="@layout/del_mode_top" />
+    </FrameLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/lv_listView"
+        android:divider="#00000000"
+        android:dividerHeight="10dp"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/line"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#3213"
+        android:id="@+id/id_del_mode_bottom"
+        android:layout_height="45dp">
+        <ImageButton
+            android:background="@mipmap/recycle_bin"
+            android:clickable="true"
+            android:id="@+id/id_btn_del_mode_bottom"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+</LinearLayout>
+
+

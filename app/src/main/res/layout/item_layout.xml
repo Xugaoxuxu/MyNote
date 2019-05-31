@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#348ba1a2"
+                android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/id_lv_id"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="-1"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/id_lv_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="3dp"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/test_ico"/>
+
+    <TextView
+        android:id="@+id/id_lv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/id_lv_cb"
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@+id/id_lv_img"
+        android:layout_toLeftOf="@+id/id_lv_time"
+        android:layout_toRightOf="@+id/id_lv_img"
+        android:layout_toStartOf="@+id/id_lv_time"
+        android:singleLine="true"
+        android:text="content"
+        android:textColor="#ffff"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/id_lv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/id_lv_cb"
+        android:text="xxxxxxxxxx"
+        android:textColor="#d5d1d1"
+        android:textSize="15dp"
+        />
+
+    <CheckBox
+        android:id="@+id/id_lv_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:checked="false"
+        android:focusable="false"
+        android:padding="2dp"
+        android:visibility="invisible"
+        />
+</RelativeLayout>
