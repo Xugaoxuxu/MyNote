@@ -33,8 +33,7 @@ public class SpanText extends android.support.v7.widget.AppCompatEditText {
             this.setText(" ");
         }
         SpannableString ss = new SpannableString(imgPath);
-        //空两行插入图片
-        this.append("\n\n");
+
         this.append(ss);
         //插入图片空两行
         this.append("\n\n");
@@ -48,21 +47,26 @@ public class SpanText extends android.support.v7.widget.AppCompatEditText {
      * @param content
      */
     public void setPicText(String content) {
-        //s1是路径字符串
+        //s1是路径字符串或者正常的文字
+        //SpannableString可以通过使用其方法setSpan方法实现字符串各种形式风格的显示
         SpannableString s1 = new SpannableString(content);
         Pattern pattern = Pattern.compile(Constants.PicPatten);
         Matcher mc = pattern.matcher(content);//正则查找图片路径
         while (mc.find()) {
             Bitmap bitmap;
             BitMapUtil.Size size = BitMapUtil.getBitMapSize(mc.group());
+            //图文混排里图片的大小边界，大于这个值则为大图，需要缩小，否则需要扩大
             if (size.getWidth() < Constants.SPANTEXT_BIG_PIC_LEAST_WIDTH && size.getHeight() < Constants.SPANTEXT_BIG_PIC_LEAST_HEIGHT) {
                 bitmap = BitMapUtil.getSuitableBitmap(mc.group());//小图扩大
-            } else { //大图缩小二倍
-                bitmap = BitMapUtil.getBitmap(mc.group(), size.getWidth() / 4, size.getHeight() / 4);
+            } else { //得到了图片，并且大图缩小二倍
+                bitmap = BitMapUtil.getBitmap(mc.group(), size.getWidth() / 2, size.getHeight() / 2);
             }
+            //设置图片的样式的
             ImageSpan imgSpan = new ImageSpan(bitmap, ImageSpan.ALIGN_BASELINE);
+            //start和end标记要替代的文字内容的范围
             s1.setSpan(imgSpan, mc.start(), mc.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+        //插入了图片或文字
         this.setText(s1);
     }
 }

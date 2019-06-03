@@ -69,13 +69,18 @@ public class NoteActivity extends Activity implements View.OnClickListener {
 
         Intent intent = getIntent();
         noteId = intent.getIntExtra(Constants.INTENT_NOTEID, -1);
-        if (noteId != -1) {       //读取已有
+        //读取已存在的记事文件
+        if (noteId != -1) {
             newOrEditState = false;
             getNoteFromDb(noteId);
-            spanContentText.setSelection(spanContentText.getText().toString().length());//设置光标位置
+            //设置光标位置在最开始的地方
+            spanContentText.setSelection(spanContentText.getText().toString().length());
         } else {
+            //新建
             newOrEditState = true;
+            //当前时间
             timeView.setText(getCurTime());
+            //输入的文字
             spanContentText.setText("");
         }
     }
@@ -99,10 +104,10 @@ public class NoteActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.id_btn_add_back:  //go back
+            case R.id.id_btn_add_back:  //go back to main activity
                 backToMainActivity();
                 break;
-            case R.id.id_btn_save:
+            case R.id.id_btn_save:  //save current text
                 String icoPath = getOnePicPath(spanContentText.getText().toString());
                 saveNote(icoPath);
                 backToMainActivity();
@@ -118,6 +123,7 @@ public class NoteActivity extends Activity implements View.OnClickListener {
 
     private void backToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
+        //finish掉其他的activity
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         this.finish();
@@ -130,9 +136,18 @@ public class NoteActivity extends Activity implements View.OnClickListener {
     /**
      * 读取数据库的图片文本用，防止阻了UI，造成卡顿
      */
+
+    //Params: 这个泛型指定的是我们传递给异步任务执行时的参数的类型
+    //Progress: 这个泛型指定的是我们的异步任务在执行的时候将执行的进度返回给UI线程的参数的类型
+    //Result: 这个泛型指定的异步任务执行完后返回给UI线程的结果的类型
     class getDataAsyncTask extends AsyncTask<Integer, Void, ItemBean> {
+
+        //表示的传入的参数可以随意，你传多少个参数都被放到一个integer里
+        //Integer实际是对象的引用，当new一个Integer时，实际上是生成一个指针指向此对象
+        // 而int则是直接存储数据值
         @Override
         protected ItemBean doInBackground(Integer... params) {
+            //找到笔记内容
             ItemBean note = dbManager.getData(params[0]);
             return note;
         }
@@ -142,6 +157,7 @@ public class NoteActivity extends Activity implements View.OnClickListener {
             super.onPreExecute();
         }
 
+        //显示在UI中
         @Override
         protected void onPostExecute(ItemBean note) {
             super.onPostExecute(note);
@@ -151,14 +167,16 @@ public class NoteActivity extends Activity implements View.OnClickListener {
     }
 
 
+    //保存note
     private void saveNote(String path) {
         String text = spanContentText.getText().toString();
         if (newOrEditState == false) {
+            //编辑更新
             dbManager.updateData(noteId, getOnePicPath(text), text, getCurTime());
         } else {
             if (path == null) {
-                path = "/no_pic/test.jpg";
                 //只是为了不挂掉随便给的，加载时为空
+                path = "/no_pic/test.jpg";
             }
             dbManager.addNote(path, text, getCurTime());
         }
@@ -166,7 +184,7 @@ public class NoteActivity extends Activity implements View.OnClickListener {
 
 
     /**
-     * 调用相册
+     * 调用相册使用系统图片
      */
     private void useGallery() {
         Intent i = new Intent(
@@ -231,6 +249,7 @@ public class NoteActivity extends Activity implements View.OnClickListener {
     }
 
     private String getCurTime() {
+        //时间格式
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
         return formatter.format(new Date());
     }
@@ -252,6 +271,7 @@ public class NoteActivity extends Activity implements View.OnClickListener {
         if (f.exists()) {
             return true;
         }
+        //创建此抽象路径名指定的目录
         boolean isSuccess = f.mkdir();
         if (isSuccess) {
             return true;
@@ -283,7 +303,8 @@ public class NoteActivity extends Activity implements View.OnClickListener {
      */
     public void onBackPressed() {
         if (noteId == -1) {
-            if (spanContentText.getText().length() == 0) {   //getText后toString得到的不是空
+            //有没有文字
+            if (spanContentText.getText().length() == 0) {
                 backToMainActivity();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -299,6 +320,7 @@ public class NoteActivity extends Activity implements View.OnClickListener {
             }
             return;
         }
+        //判断有没有改动
         String old = dbManager.getData(noteId).getContent();
         String newer = spanContentText.getText().toString();
         if (!old.equals(newer)) {

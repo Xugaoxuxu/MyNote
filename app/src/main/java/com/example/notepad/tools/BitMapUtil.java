@@ -42,11 +42,14 @@ public final class BitMapUtil {
         // 初始化创建图片线程,并等待处理
         new Thread() {
             {
+                //开启一个守护线程
+                // 守护线程的优先级低，存活与否不影响JVM的退出的线程
                 setDaemon(true);
             }
 
             public void run() {
                 while (true) {
+                    //线程请求创建图片的队列
                     synchronized (TASK_QUEUE) {
                         if (TASK_QUEUE.isEmpty()) {
                             try {
@@ -56,7 +59,10 @@ public final class BitMapUtil {
                             }
                         }
                     }
+                    //移除并返问队列头部的元素，如果队列为空，则返回nul
+                    //缓存数组
                     QueueEntry entry = (QueueEntry) TASK_QUEUE.poll();
+                    //path + "_" + width + "_" + height
                     String key = createKey(entry.path, entry.width,
                             entry.height);
                     TASK_QUEUE_INDEX.remove(key);
@@ -113,7 +119,7 @@ public final class BitMapUtil {
         return ZERO_SIZE;
     }
 
-    // ------------------------------------------------------------------ private Methods
+    // private Methods
     // 将图片加入队列头
     private static Bitmap useBitmap(String path, int width, int height) {
         Bitmap bitMap = null;

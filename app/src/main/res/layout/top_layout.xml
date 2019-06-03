@@ -13,15 +13,11 @@
         android:background="#4b0f0f31">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/line"/>
-
-        <ImageView
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@mipmap/note"/>
+            app:srcCompat="@mipmap/note"
+            android:layout_alignParentBottom="true"/>
 
         <ImageButton
             android:id="@+id/id_addNote"
@@ -30,6 +26,12 @@
             android:background="@mipmap/note_add"
             android:layout_alignParentRight="true"
             android:text="新增"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/line"
+            android:layout_alignParentBottom="true"/>
 
         <TextView
             android:layout_width="wrap_content"

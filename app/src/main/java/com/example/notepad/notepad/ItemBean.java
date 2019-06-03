@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 
 /**
  * 记事本bean
- * 即可重用 Java 组件
+ * 即可重用 Java 组件，用于存储记事本的图片，内容，事件，id的组建信息
  */
 public class ItemBean {
     Bitmap image;

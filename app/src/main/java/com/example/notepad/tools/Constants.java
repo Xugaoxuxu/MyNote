@@ -24,8 +24,8 @@ public class Constants {
     /**
      * 图文混排里图片的大小边界，大于这个值则为大图，需要缩小，否则需要扩大
      **/
-    public static final int SPANTEXT_BIG_PIC_LEAST_WIDTH = 4000;
-    public static final int SPANTEXT_BIG_PIC_LEAST_HEIGHT = 4000;
+    public static final int SPANTEXT_BIG_PIC_LEAST_WIDTH = 2000;
+    public static final int SPANTEXT_BIG_PIC_LEAST_HEIGHT = 2000;
 
     /**
      * 笔记的图标大小

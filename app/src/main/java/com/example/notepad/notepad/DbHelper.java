@@ -12,10 +12,14 @@ import com.example.notepad.tools.Constants;
  */
 public class DbHelper extends SQLiteOpenHelper {
 
+
     public DbHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
+
+    //notepadTable
+    //_id
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "create table if not exists " + Constants.TABLE_NAME +
@@ -26,6 +30,8 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
+        //drop主要用于删除结构,delete主要用于删除数据
+        //删除之后再进行创建
         onCreate(db);
     }
 }

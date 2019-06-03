@@ -35,9 +35,11 @@ public class MainActivity extends BaseActivity {
     public boolean deleteMode;  //是否是长按item => 删除note
     private boolean isALLselect;
 
+    //当该activity与用户能进行交互时被执行，即在添加新的内容之后被执行，会被多次调用
     @Override
     protected void onResume() {
         super.onResume();
+        //刷新被更新的界面
         refreshUI();
     }
 
@@ -45,13 +47,18 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //去除系统标题栏，改为自己的
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        //得到可读可写数据库
         dbManager = DbManager.getInstance(this);
+        //初始化操作
         initView();
         initEvent();
         initDataFromDb();
+        //是否是长按item => 删除note
         deleteMode = false;
+        //删除全选标志
         isALLselect = false;
 
         //申请权限
@@ -69,12 +76,19 @@ public class MainActivity extends BaseActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+
     }
 
+    /**
+     * 绘制被更新的listview
+     */
     public static void refreshUI() {
         mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 找到控件
+     */
     private void initView() {
         listview = (ListView) findViewById(R.id.lv_listView);
         addBtn = (ImageButton) findViewById(R.id.id_addNote);
@@ -84,26 +98,40 @@ public class MainActivity extends BaseActivity {
      * 从数据库获取所有笔记，传给dataList
      */
     private void initDataFromDb() {
-        //        dataList = new ArrayList<ItemBean>();
+        //dataList = new ArrayList<ItemBean>();
+        //找到所有笔记的信息
         dataList = dbManager.getDataList();
+        //将这些信息通过adapter显示出来
         mAdapter = new MyListAdapter(MainActivity.this, dataList);
         listview.setAdapter(mAdapter);
+        //刷新
         refreshUI();
     }
 
+    //单击事件以及长按事件
     private void initEvent() {
+        //单击笔记内容
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NoteActivity.class);
+                //如果想在Activity中得到新打开Activity关闭后返回的数据
+                //需要使用系统提供的startActivityForResult(Intent intent, int requestCode)方法打开新的Activity
+                //新的Activity 关闭后会向前面的Activity传回数据
+                //为了得到传回的数据，必须在前面的Activity中重写onActivityResult(int requestCode, int resultCode, Intent data)方法
+                //这里requestCode传递了add代表进入添加界面
                 startActivityForResult(intent, ADD_NOTE);
                 MainActivity.this.finish();
             }
         });
+
+        //长按进入复选框删除等
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //删除操作
                 if (!deleteMode) {
+                    //
                     MyListAdapter.ViewHolder viewHolder
                             = (MyListAdapter.ViewHolder) view.getTag();
                     String noteId = viewHolder.noteId.getText().toString().trim();
